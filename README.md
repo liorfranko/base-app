@@ -1,34 +1,41 @@
 # base-app
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
-
 Helm Chart with Canary deployment using Argo Rollouts and revisioned configmaps.
 
-**Homepage:** <https://github.com/liorfranko/base-app>
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-## Maintainers
+## Additional Information
+This chart provide the ability to perform Canary deployments using Argo Rollouts with the configmaps revisions.
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| Lior Franko | liorfranko@gmail.com |  |
+**It runs on 5 basis:**
+1. A Rollout object is in use instaed of a deployment. (So you must have Argo Rollouts controller deployed on the cluster)
+2. A `checksum/config` annotation is added to the Rollout to trigger a rollout based on a configmap change for [for more information click here](https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments).
+3. The configmap name ends with hashed suffix.
+4. On every deploy a Job run to attach the configmaps to the ReplicaSet's, using ownerRefrence [for more information click here](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/).
+5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified using `configmapsMountPath`
 
-## Source Code
+**Behaviour:**
+1. Every change in a configmaps' values will create a new configmap without deleting the old one.
+2. The new configmap will be attached to the new ReplicaSet.
+3. The old configmaps will be deleted with the old ReplicaSets by K8S garbege collector.
 
-* <https://github.com/liorfranko/base-app>
+## Prerequsets
+* You must have Argo Rollouts controller deployed.
+* You must deploy this chart with ArgoCD.
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| appName | string | `""` | (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods |
+| appName | string | `"test-service"` | (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods |
 | configmapAttacher | object | `{"repository":"quay.io/liorfranko/configmap-attacher","resources":{"limits":{"cpu":0.1,"memory":"100Mi"},"requests":{"cpu":0.1,"memory":"100Mi"}},"tag":"1.0.1"}` | Variables of the configmap-attacher |
 | configmaps | object | `{}` |  |
 | configmapsMountPath | string | `"/etc/kubernetes/configmaps"` | Allows to define custom configMap objects with custom content |
 | image.imagePullPolicy | string | `"Always"` | ImagePullPolicy applied to application |
 | image.repository | string | `"nginx"` | Repository applied to application |
-| image.tag | string | `"1.14.2"` | Tag applied to application |
+| image.tag | string | `"1.14.3"` | Tag applied to application |
 | replicas | int | `1` | The number of application pods to run |
-| rollout.preDefinedStrategy | string | `""` |  |
+| rollout.preDefinedStrategy | string | `"manual-canary-1-pod"` |  |
 | rollout.strategy | object | `{}` | Use custom strategy of the argo rollout |
 
 ----------------------------------------------
