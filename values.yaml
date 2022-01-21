@@ -1,6 +1,6 @@
 
 # -- (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods
-appName: "test-service"
+appName: "test"
 
 image:
   # -- Repository applied to application

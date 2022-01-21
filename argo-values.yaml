@@ -1,6 +1,0 @@
-server:
-  ingress:
-    enabled: true
-  extraArgs:
-  - --insecure
-installCRDs: false
