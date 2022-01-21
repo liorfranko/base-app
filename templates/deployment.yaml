@@ -21,11 +21,10 @@ spec:
         app: {{ $appname }}
     spec:
       containers:
-      - env:
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         name: {{ $appname }}
-      volumeMounts:
-        {{- include "configmapVolumeMount" . | nindent 10 }}
+        volumeMounts:
+          {{- include "configmapVolumeMount" . | nindent 10 }}
       volumes:
         {{- include "configmapsVolume" . | nindent 8 }}
