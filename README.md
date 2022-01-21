@@ -29,7 +29,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 |-----|------|---------|-------------|
 | appName | string | `"test-service"` | (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods |
 | configmapAttacher | object | `{"repository":"quay.io/liorfranko/configmap-attacher","resources":{"limits":{"cpu":0.1,"memory":"100Mi"},"requests":{"cpu":0.1,"memory":"100Mi"}},"tag":"1.0.1"}` | Variables of the configmap-attacher |
-| configmaps.example-cm-1.kv_data.key-1 | string | `"value-7"` |  |
+| configmaps.example-cm-1.kv_data.key-1 | string | `"value-13"` |  |
 | configmaps.example-cm-1.kv_data.key-2 | string | `"value-2"` |  |
 | configmaps.example-cm-1.raw_data.somename | string | `"line 1\nline 2\n"` |  |
 | configmaps.example-cm-2.kv_data.key-3 | string | `"value-3"` |  |
