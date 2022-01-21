@@ -1,0 +1,34 @@
+{{- $configmapList := printf "%s" (include "configmapList" .) -}}
+{{- $appname := printf "%s" (include "name" .) -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: kube-system
+  annotations:
+    argocd.argoproj.io/hook: Sync
+  labels:
+    app: "{{ $appname }}"
+  name: configmap-attacher-job-{{ $appname }}
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: "{{ $appname }}"
+      annotations:
+      labels:
+        app: "{{ $appname }}"
+    spec:
+      containers:
+      - name: {{ $appname }}-configmap-attacher-job
+        args: ["-rollout", "{{ $appname }}", "-namespace", "{{ .Release.Namespace }}", "-configmaps", "{{ $configmapList }}"]
+        image: {{ .Values.configmapAttacher.repository }}:{{ .Values.configmapAttacher.tag }}
+        resources:
+          requests: {{ toYaml .Values.configmapAttacher.resources.requests | nindent 12 }}
+          limits: {{ toYaml .Values.configmapAttacher.resources.limits | nindent 12 }}
+        env:
+          - name: VERSION
+            value: "{{ .Values.configmapAttacher.tag | toString }}"
+          - name: LOG_LEVEL
+            value: "debug"
+      restartPolicy: OnFailure
+      serviceAccountName: configmap-attacher-job

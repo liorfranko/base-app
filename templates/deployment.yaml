@@ -1,0 +1,31 @@
+{{- $appname := printf "%s" (include "name" .) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ $appname }}
+  labels:
+    app: {{ $appname }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $appname }}
+  strategy:
+    {{- include "DeploymentStrategy" .}}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app: {{ $appname }}
+    spec:
+      containers:
+      - env:
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        name: {{ $appname }}
+        volumeMounts:
+            {{- include "configmapVolumeMount" . | nindent 10 }}
+      volumes:
+          {{- include "configmapsVolume" . | nindent 8 }}

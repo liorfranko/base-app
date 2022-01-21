@@ -1,0 +1,28 @@
+{{- $root := . -}}
+{{- $appname := printf "%s" (include "name" .) -}}
+apiVersion: v1
+kind: List
+metadata:
+  name: "configmap-list"
+items:
+{{- range $key, $value := .Values.configmaps }}
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: "{{ $appname }}-{{ $key }}-{{ $value | toString | adler32sum }}"
+    namespace: {{ $root.Release.Namespace }}
+    labels:
+      app: "{{ $appname }}"
+  data:
+  {{- if $value.kv_data }}
+  {{- range $key, $value := $value.kv_data }}
+    {{ $key }}: {{ $value }}
+  {{- end }}
+  {{- end }}
+  {{- if $value.raw_data }}
+  {{- range $key, $value := $value.raw_data }}
+    {{ $key }}: |-
+      {{ tpl $value $root | nindent 6 }}
+  {{- end }}
+  {{- end }}
+{{- end }}
