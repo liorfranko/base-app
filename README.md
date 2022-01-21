@@ -12,7 +12,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 2. A `checksum/config` annotation is added to the Rollout to trigger a rollout based on a configmap change for [for more information click here](https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments).
 3. The configmap name ends with hashed suffix.
 4. On every deploy a [configmap-attcher](https://github.com/liorfranko/configmap-attacher) Job runs and attach the configmaps to the ReplicaSet's, using [ownerRefrence](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/).
-5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified using `configmapsMountPath`
+5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified by changing the `configmapsMountPath`.
 
 **Behaviour:**
 1. Every change in the configmaps values will trigger a creation of a new configmap, while the old one won't be replaced.
@@ -27,7 +27,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| appName | string | `"test-service"` | (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods |
+| appName | string | `"test-service"` | Application name which will be used by all resources created via base chart. |
 | configmapAttacher | object | `{"repository":"quay.io/liorfranko/configmap-attacher","resources":{"limits":{"cpu":0.1,"memory":"100Mi"},"requests":{"cpu":0.1,"memory":"100Mi"}},"tag":"1.0.1"}` | Variables of the configmap-attacher |
 | configmaps.example-cm-1.kv_data.key-1 | string | `"value-13"` |  |
 | configmaps.example-cm-1.kv_data.key-2 | string | `"value-2"` |  |

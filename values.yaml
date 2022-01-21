@@ -1,5 +1,5 @@
 
-# -- (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods
+# -- Application name which will be used by all resources created via base chart.
 appName: "test-service"
 
 image:
