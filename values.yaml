@@ -1,12 +1,12 @@
 
 # -- (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods
-appName: "test"
+appName: "test-service"
 
 image:
   # -- Repository applied to application
   repository: "nginx"
   # -- Tag applied to application
-  tag: "1.14.2"
+  tag: "1.14.3"
   # -- ImagePullPolicy applied to application
   imagePullPolicy: Always
 
