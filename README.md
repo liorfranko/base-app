@@ -15,7 +15,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified using `configmapsMountPath`
 
 **Behaviour:**
-1. Every change in a configmaps' values will create a new configmap without deleting the old one.
+1. Every change in the configmaps values will trigger a creation of a new configmap, while the old one won't be replaced.
 2. The new configmap will be attached to the new ReplicaSet.
 3. The old configmaps will be deleted with the old ReplicaSets by K8S garbege collector.
 
@@ -29,7 +29,12 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 |-----|------|---------|-------------|
 | appName | string | `"test-service"` | (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods |
 | configmapAttacher | object | `{"repository":"quay.io/liorfranko/configmap-attacher","resources":{"limits":{"cpu":0.1,"memory":"100Mi"},"requests":{"cpu":0.1,"memory":"100Mi"}},"tag":"1.0.1"}` | Variables of the configmap-attacher |
-| configmaps | object | `{}` |  |
+| configmaps.example-cm-1.kv_data.key-1 | string | `"value-7"` |  |
+| configmaps.example-cm-1.kv_data.key-2 | string | `"value-2"` |  |
+| configmaps.example-cm-1.raw_data.somename | string | `"line 1\nline 2\n"` |  |
+| configmaps.example-cm-2.kv_data.key-3 | string | `"value-3"` |  |
+| configmaps.example-cm-2.kv_data.key-4 | string | `"value-4"` |  |
+| configmaps.example-cm-2.raw_data.somename | string | `"line 1\nline 2\n"` |  |
 | configmapsMountPath | string | `"/etc/kubernetes/configmaps"` | Allows to define custom configMap objects with custom content |
 | image.imagePullPolicy | string | `"Always"` | ImagePullPolicy applied to application |
 | image.repository | string | `"nginx"` | Repository applied to application |

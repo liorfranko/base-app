@@ -14,7 +14,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified using `configmapsMountPath`
 
 **Behaviour:**
-1. Every change in a configmaps' values will create a new configmap without deleting the old one.
+1. Every change in the configmaps values will trigger a creation of a new configmap, while the old one won't be replaced.
 2. The new configmap will be attached to the new ReplicaSet.
 3. The old configmaps will be deleted with the old ReplicaSets by K8S garbege collector.
 
