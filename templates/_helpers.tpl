@@ -18,11 +18,7 @@ Generate configmaps volume
     sources:
     {{- range $key, $value := .Values.configmaps }}
       - configMap:
-        {{- if $root.Values.rollout.enabled }}
           name: "{{ $appname }}-{{ $key }}-{{ $value | toString | adler32sum }}"
-        {{- else }}
-          name: "{{ $appname }}-{{ $key }}"
-        {{- end }}
     {{- end }}
 {{- end }}
 
