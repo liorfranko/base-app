@@ -34,6 +34,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 | image.imagePullPolicy | string | `"Always"` | ImagePullPolicy applied to application |
 | image.repository | string | `"nginx"` | Repository applied to application |
 | image.tag | string | `"1.14.3"` | Tag applied to application |
+| rbac.enabled | bool | `false` |  |
 | replicas | int | `1` | The number of application pods to run |
 | rollout.preDefinedStrategy | string | `"manual-canary-1-pod"` |  |
 | rollout.strategy | object | `{}` | Use custom strategy of the argo rollout |
