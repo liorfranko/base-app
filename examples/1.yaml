@@ -1,0 +1,29 @@
+appName: test-service
+rollout:
+  preDefinedStrategy: "manual-canary-1-pod"
+configmaps:
+  first-configmap:
+    kv_data:
+      key-1: value-1
+      key-2: value-2
+    raw_data:
+      developments.json: |
+        {
+          "general": {
+            "projectName": "helm-base-app-1",
+          }
+        }
+      application.json: |
+        {
+          "general-2": {
+            "projectName": "helm-base-app-2",
+          }
+        }
+  second-configmap:
+    raw_data:
+      more-configurations.json: |
+        {
+          "general-3": {
+            "projectName": "helm-base-app-3",
+          }
+        }
