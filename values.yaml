@@ -18,7 +18,7 @@ configmapsMountPath: "/etc/kubernetes/configmaps"
 configmaps:
   example-cm-1:
     kv_data:
-      key-1: value-6
+      key-1: value-7
       key-2: value-2
     raw_data:
       somename: |
