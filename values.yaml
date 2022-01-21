@@ -1,6 +1,6 @@
 
 # -- (REQUIRED) Application name which will be used by all resources created via base chart. Also will be available via APPNAME variable inside pods
-appName: ""
+appName: "test-service"
 
 image:
   # -- Repository applied to application
@@ -15,23 +15,23 @@ replicas: 1
 
 # -- Allows to define custom configMap objects with custom content
 configmapsMountPath: "/etc/kubernetes/configmaps"
-configmaps: {}
-  # example-cm-1:
-  #   kv_data:
-  #     key-1: value-1
-  #     key-2: value-2
-  #   raw_data:
-  #     somename: |
-  #       line 1
-  #       line 2
-  # example-cm-2:
-  #   kv_data:
-  #     key-3: value-3
-  #     key-4: value-4
-  #   raw_data:
-  #     somename: |
-  #       line 1
-  #       line 2
+configmaps:
+  example-cm-1:
+    kv_data:
+      key-1: value-1
+      key-2: value-2
+    raw_data:
+      somename: |
+        line 1
+        line 2
+  example-cm-2:
+    kv_data:
+      key-3: value-3
+      key-4: value-4
+    raw_data:
+      somename: |
+        line 1
+        line 2
 
 # ArgoRollouts - https://github.com/argoproj/argo-rollouts
 rollout:
@@ -42,7 +42,7 @@ rollout:
 #        - setWeight: 20
 #        - pause: {}
 # -- Use predefined rollout strategy. available values: "manual-canary-1-pod", "manual-canary-20-pct"
-  preDefinedStrategy: ""
+  preDefinedStrategy: "manual-canary-1-pod"
 
 # -- Variables of the configmap-attacher
 configmapAttacher:
