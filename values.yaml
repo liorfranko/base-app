@@ -6,7 +6,7 @@ image:
   # -- Repository applied to application
   repository: "nginx"
   # -- Tag applied to application
-  tag: "1.14.3"
+  tag: "1.14.1"
   # -- ImagePullPolicy applied to application
   imagePullPolicy: Always
 
