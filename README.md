@@ -7,21 +7,22 @@ Helm Chart with Canary deployment using Argo Rollouts and revisioned configmaps.
 ## Additional Information
 This chart provide the ability to perform Canary deployments using Argo Rollouts with the configmaps revisions.
 
-**It runs on 5 basis:**
-1. A Rollout object is in use instaed of a deployment. (So you must have Argo Rollouts controller deployed on the cluster)
+## It works on 5 concepts:
+1. A Rollout object is in use instaed of a deployment.
 2. A `checksum/config` annotation is added to the Rollout to trigger a rollout based on a configmap change for [for more information click here](https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments).
-3. The configmap name ends with hashed suffix.
-4. On every deploy a [configmap-attcher](https://github.com/liorfranko/configmap-attacher) Job runs and attach the configmaps to the ReplicaSet's, using [ownerRefrence](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/).
-5. By default, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified by changing the `configmapsMountPath`.
+3. The configmap name ends with a hashed suffix.
+4. On every deploy a [configmap-attacher](https://github.com/liorfranko/configmap-attacher) Job runs and attach the configmaps to the ReplicaSet's, using [ownerRefrence](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/).
+5. To overcome the mounting problem of configmaps with different names, the configmaps are mounted on the pods to `/etc/kubernetes/configmaps`, that can be modified by changing the `configmapsMountPath`.
 
-**Behaviour:**
-1. Every change in the configmaps values will trigger a creation of a new configmap, while the old one won't be replaced.
-2. The new configmap will be attached to the new ReplicaSet.
-3. The old configmaps will be deleted with the old ReplicaSets by K8S garbege collector.
+## Behaviour:
+1. Every change in the configmaps values triggers the creation of new configmaps, while the old configmaps aren't deleted.
+2. The new configmap are attached to the new ReplicaSet.
+3. The old configmaps are deleted with the old ReplicaSets by K8S garbege collector.
 
 ## Prerequisites
-* You must have Argo Rollouts controller deployed.
-* You must deploy this chart with ArgoCD.
+* You must have [Argo Rollouts](https://argoproj.github.io/argo-rollouts/installation/#installation) controller deployed.
+* You must deploy this chart with [ArgoCD](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#installation).
+* You must provide the required permissions for the configmap-attacher Job.
 
 ## Values
 
@@ -39,7 +40,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 | image.imagePullPolicy | string | `"Always"` | ImagePullPolicy applied to application |
 | image.repository | string | `"nginx"` | Repository applied to application |
 | image.tag | string | `"1.14.3"` | Tag applied to application |
-| rbac.enabled | bool | `false` |  |
+| rbac.enabled | bool | `true` |  |
 | replicas | int | `1` | The number of application pods to run |
 | rollout.preDefinedStrategy | string | `"manual-canary-1-pod"` |  |
 | rollout.strategy | object | `{}` | Use custom strategy of the argo rollout |

@@ -57,4 +57,4 @@ configmapAttacher:
       memory: 100Mi
 
 rbac:
-  enabled: false
+  enabled: true
