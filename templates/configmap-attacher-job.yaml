@@ -32,3 +32,4 @@ spec:
             value: "debug"
       restartPolicy: OnFailure
       serviceAccountName: configmap-attacher-job
+      ttlSecondsAfterFinished: 100
