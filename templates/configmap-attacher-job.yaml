@@ -6,9 +6,19 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: kube-system
+  {{- if and (semverCompare "<=1.21.0-0" $kubeTargetVersion) }}
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    strategy.spinnaker.io/recreate: 'true'
+  {{- end }}
   labels:
     app: "{{ $appname }}"
+    configmap-attacher-job: "true"
+  {{- if and (semverCompare "<=1.21.0-0" $kubeTargetVersion) }}
+  name: configmap-attacher-job-{{ $appname }}
+  {{- else }}
   name: configmap-attacher-job-{{ $appname }}-{{ $timeNow }}
+  {{- end }}
 spec:
   backoffLimit: 3
   template:
@@ -31,7 +41,11 @@ spec:
           - name: LOG_LEVEL
             value: "debug"
           - name: JOB_NAME
-            value: "configmap-attacher-job-{{ $appname }}-{{ $timeNow }}"
+              {{- if and (semverCompare "<=1.21.0-0" $kubeTargetVersion) }}
+              value: "configmap-attacher-job-{{ $appname }}
+              {{- else }}
+              value: "configmap-attacher-job-{{ $appname }}-{{ $timeNow }}"
+              {{- end }}
       restartPolicy: OnFailure
       serviceAccountName: configmap-attacher-job
       {{- if and (semverCompare ">=1.21.0-0" $kubeTargetVersion) (semverCompare "<9.9.9-9" $kubeTargetVersion) }}

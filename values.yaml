@@ -48,7 +48,7 @@ rollout:
 # -- Variables of the configmap-attacher
 configmapAttacher:
   repository: "quay.io/liorfranko/configmap-attacher"
-  tag: 1.0.1
+  tag: 1.0.3
   resources:
     limits:
       cpu: 0.1
