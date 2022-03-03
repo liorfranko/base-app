@@ -1,6 +1,7 @@
 
 # -- Application name which will be used by all resources created via base chart.
 appName: "test-service"
+kubeTargetVersionOverride: ""
 
 image:
   # -- Repository applied to application
