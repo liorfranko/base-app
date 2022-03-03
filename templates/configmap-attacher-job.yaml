@@ -36,4 +36,4 @@ spec:
       serviceAccountName: configmap-attacher-job
       {{- if and (semverCompare ">=1.21.0-0" $kubeTargetVersion) (semverCompare "<9.9.9-9" $kubeTargetVersion) }}
       ttlSecondsAfterFinished: 100
-      {{-end }}
+      {{- end }}
