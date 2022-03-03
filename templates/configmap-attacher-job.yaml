@@ -34,6 +34,6 @@ spec:
             value: "configmap-attacher-job-{{ $appname }}-{{ $timeNow }}"
       restartPolicy: OnFailure
       serviceAccountName: configmap-attacher-job
-      {{- if and (semverCompare ">=1.21.0-0" $kubeTargetVersion) (semverCompare "<9.9.9-9" $kubeTargetVersion)
+      {{- if and (semverCompare ">=1.21.0-0" $kubeTargetVersion) (semverCompare "<9.9.9-9" $kubeTargetVersion) }}
       ttlSecondsAfterFinished: 100
       {{-end }}
