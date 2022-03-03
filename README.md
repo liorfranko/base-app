@@ -9,7 +9,7 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 ![](argocd.png)
 
 ## It works on 5 concepts:
-1. A Rollout object is in use instaed of a deployment.
+1. An Argo Rollout object is in use instaed of a deployment.
 2. A `checksum/config` annotation is added to the Rollout to trigger a rollout based on a configmap change for [for more information click here](https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments).
 3. The configmap name ends with a hashed suffix.
 4. On every deploy a [configmap-attacher](https://github.com/liorfranko/configmap-attacher) Job runs and attach the configmaps to the ReplicaSet's, using [ownerRefrence](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/).
@@ -22,7 +22,6 @@ This chart provide the ability to perform Canary deployments using Argo Rollouts
 
 ## Prerequisites
 * You must have [Argo Rollouts](https://argoproj.github.io/argo-rollouts/installation/#installation) controller deployed.
-* You must deploy this chart with [ArgoCD](https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#installation).
 * You must provide the required permissions for the configmap-attacher Job.
 
 ## Values
