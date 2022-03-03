@@ -1,4 +1,5 @@
 {{- $configmapList := printf "%s" (include "configmapList" .) -}}
+{{- $timeNow := (now | date "20060102150405") }}
 {{- $appname := printf "%s" (include "name" .) -}}
 apiVersion: batch/v1
 kind: Job
@@ -8,7 +9,7 @@ metadata:
     argocd.argoproj.io/hook: Sync
   labels:
     app: "{{ $appname }}"
-  name: configmap-attacher-job-{{ $appname }}
+  name: configmap-attacher-job-{{ $appname }}-{{ $timeNow }}
 spec:
   backoffLimit: 3
   template:
@@ -30,6 +31,8 @@ spec:
             value: "{{ .Values.configmapAttacher.tag | toString }}"
           - name: LOG_LEVEL
             value: "debug"
+          - name: JOB_NAME
+            value: "configmap-attacher-job-{{ $appname }}-{{ $timeNow }}"
       restartPolicy: OnFailure
       serviceAccountName: configmap-attacher-job
       ttlSecondsAfterFinished: 100
