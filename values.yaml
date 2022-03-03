@@ -28,7 +28,7 @@ configmaps:
   example-cm-2:
     kv_data:
       key-3: value-3
-      key-4: value-4ss
+      key-4: value-4ssss
     raw_data:
       somename: |
         line 1
