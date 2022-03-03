@@ -8,6 +8,7 @@ metadata:
   namespace: kube-system
   labels:
     app: "{{ $appname }}"
+    configmap-attacher-job: "true"
   name: configmap-attacher-job-{{ $appname }}-{{ $timeNow }}
 spec:
   backoffLimit: 3
