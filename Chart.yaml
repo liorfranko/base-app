@@ -1,7 +1,7 @@
 apiVersion: v2
 name: base-app
 description: Helm Chart with Canary deployment using Argo Rollouts and revisioned configmaps.
-version: 1.0.0
+version: 1.0.1
 engine: gotpl
 type: application
 home: "https://github.com/liorfranko/base-app"
